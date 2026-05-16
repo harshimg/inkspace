@@ -1,6 +1,12 @@
-export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       workspaces: {
@@ -13,8 +19,24 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["workspaces"]["Row"], "id" | "created_at" | "updated_at">;
-        Update: Partial<Database["public"]["Tables"]["workspaces"]["Insert"]>;
+        Insert: {
+          id?: string;
+          name: string;
+          slug: string;
+          owner_id: string;
+          icon?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          slug?: string;
+          owner_id?: string;
+          icon?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       folders: {
         Row: {
@@ -27,8 +49,26 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["folders"]["Row"], "id" | "created_at" | "updated_at">;
-        Update: Partial<Database["public"]["Tables"]["folders"]["Insert"]>;
+        Insert: {
+          id?: string;
+          workspace_id: string;
+          parent_id?: string | null;
+          name: string;
+          icon?: string | null;
+          position?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          workspace_id?: string;
+          parent_id?: string | null;
+          name?: string;
+          icon?: string | null;
+          position?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       notes: {
         Row: {
@@ -36,7 +76,7 @@ export interface Database {
           workspace_id: string;
           folder_id: string | null;
           title: string;
-          content: Json;
+          content: Json | null;
           content_text: string | null;
           icon: string | null;
           cover: string | null;
@@ -47,8 +87,37 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["notes"]["Row"], "id" | "created_at" | "updated_at">;
-        Update: Partial<Database["public"]["Tables"]["notes"]["Insert"]>;
+        Insert: {
+          id?: string;
+          workspace_id: string;
+          folder_id?: string | null;
+          title?: string;
+          content?: Json | null;
+          content_text?: string | null;
+          icon?: string | null;
+          cover?: string | null;
+          is_published?: boolean;
+          is_archived?: boolean;
+          position?: number;
+          created_by: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          workspace_id?: string;
+          folder_id?: string | null;
+          title?: string;
+          content?: Json | null;
+          content_text?: string | null;
+          icon?: string | null;
+          cover?: string | null;
+          is_published?: boolean;
+          is_archived?: boolean;
+          position?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       workspace_members: {
         Row: {
@@ -58,9 +127,25 @@ export interface Database {
           role: "owner" | "editor" | "viewer";
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["workspace_members"]["Row"], "id" | "created_at">;
-        Update: Partial<Database["public"]["Tables"]["workspace_members"]["Insert"]>;
+        Insert: {
+          id?: string;
+          workspace_id: string;
+          user_id: string;
+          role?: "owner" | "editor" | "viewer";
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          workspace_id?: string;
+          user_id?: string;
+          role?: "owner" | "editor" | "viewer";
+        };
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
-}
+};
