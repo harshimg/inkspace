@@ -1,5 +1,6 @@
 "use client";
 
+import { SignOutButton } from "@/components/shared/SignOutButton";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -130,10 +131,6 @@ export function Sidebar({ workspace, notes, folders, user, activeNoteId }: Props
               <DropdownMenuItem onClick={() => router.push("/settings")}>
                 <Settings className="w-3.5 h-3.5 mr-2" /> Settings
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
-                <LogOut className="w-3.5 h-3.5 mr-2" /> Sign out
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -237,16 +234,19 @@ export function Sidebar({ workspace, notes, folders, user, activeNoteId }: Props
 
         {/* Footer */}
         <div className="mx-3 mt-1 mb-1 h-px bg-border" />
-        <div className="px-3 py-3 flex items-center gap-2">
-          <Avatar className="w-6 h-6 shrink-0">
-            <AvatarImage src={user.avatar_url ?? undefined} />
-            <AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium truncate leading-tight">{user.full_name ?? user.email}</p>
-            <p className="text-[10px] text-muted-foreground truncate leading-tight">{user.full_name ? user.email : ""}</p>
+        <div className="px-3 py-3 space-y-2">
+          <div className="flex items-center gap-2">
+            <Avatar className="w-6 h-6 shrink-0">
+              <AvatarImage src={user.avatar_url ?? undefined} />
+              <AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium truncate leading-tight">{user.full_name ?? user.email}</p>
+              <p className="text-[10px] text-muted-foreground truncate leading-tight">{user.full_name ? user.email : ""}</p>
+            </div>
+            <ThemeToggle />
           </div>
-          <ThemeToggle />
+          <SignOutButton className="w-full px-2 py-1.5 rounded-md hover:bg-destructive/10 hover:text-destructive" />
         </div>
       </div>
     </>
