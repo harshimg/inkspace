@@ -128,8 +128,10 @@ export function Sidebar({ workspace, notes, folders, user, activeNoteId }: Props
                 <p className="text-[11px] text-muted-foreground truncate">{user.email}</p>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => router.push("/settings")}>
-                <Settings className="w-3.5 h-3.5 mr-2" /> Settings
+              <DropdownMenuItem asChild>
+                <a href="/settings" className="flex items-center">
+                  <Settings className="w-3.5 h-3.5 mr-2" /> Settings
+                </a>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
